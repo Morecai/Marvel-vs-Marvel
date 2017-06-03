@@ -19,39 +19,41 @@
             <h2 class="text-center">Who Will Win?</h2>
         </nav>
     </div>
-    <div class="col-xs-3 col-md-3">
-        <div class="panel panel-default" style="background-color: black">
-            <div class="panel-heading" style="background-color: black">
-                <div class="panel-title" style="background-color: black">
-                    <h1 class="text-center" style="color: #f5f5f5">Hero's</h1>
+    <div id="body">
+        <div class="col-xs-3 col-md-3">
+            <div class="panel panel-default" style="background-color: black">
+                <div class="panel-heading" style="background-color: black">
+                    <div class="panel-title" style="background-color: black">
+                        <h1 class="text-center" style="color: #f5f5f5">Hero's</h1>
+                    </div>
+                </div>
+                <div class="text-center panel-body" id="heroList">
                 </div>
             </div>
-            <div class="text-center panel-body" id="heroList">
+        </div>
+
+        <div class="col-xs-6 col-md-6" id="infoBox">
+        </div>
+
+        <div class="col-xs-3 col-md-3 villainList">
+            <div class="panel panel-default" style="background-color: black">
+                <div class="panel-heading" style="background-color: black">
+                    <div class="panel-title" style="background-color: black">
+                        <h1 class="text-center" style="color: #f5f5f5">Villain's</h1>
+                    </div>
+                </div>
+                <div class="text-center panel-body" id='villainList'>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="col-xs-6 col-md-6" id="infoBox">
-    </div>
-
-    <div class="col-xs-3 col-md-3 villainList">
-        <div class="panel panel-default" style="background-color: black">
-            <div class="panel-heading" style="background-color: black">
-                <div class="panel-title" style="background-color: black">
-                    <h1 class="text-center" style="color: #f5f5f5">Villain's</h1>
-                </div>
-            </div>
-            <div class="text-center panel-body" id='villainList'>
-            </div>
-        </div>
-    </div>
-    </div>
+    </body>
     <script type='text/javascript'>
 
 
-var heroNames = ['Hulk', 'Iron man', 'Captain America', 'Thor', 'Squirrel Girl'];
-var heroIds = ['hulk', 'irnMn', 'cptnA', 'thor', 'sqrlG'];
-var villainNames = ['Loki', "Stan Lee", "Magneto", 'Red asdfasdSkull', 'Ultron'];
+var heroNames = ['Hulk', 'Iron man', 'Captain America', 'Thor', 'Black Widow'];
+var heroIds = ['hulk', 'irnMn', 'cptnA', 'thor', 'blkwdw'];
+var villainNames = ['Loki', "Stan Lee", "Magneto", 'Red Skull', 'Ultron'];
 var villainIds = ['loki', 'sLee', 'mag', 'rskl', 'ult'];
 
 function panelCreate(arrName, arrId, hv) {
@@ -64,14 +66,13 @@ function panelCreate(arrName, arrId, hv) {
         $('#'+ hv + 'List').append(hero);
     }
 }
+
+function fresh() {
+
+}
+
 panelCreate(heroNames, heroIds, 'hero');
 panelCreate(villainNames, villainIds, 'villain');
-
-
-    // <a href="#" class="thumbnail char">
-    //                 <img id="hulk" src="assets/images/Hulk.jpg" alt="Hulk">
-    //                 <h3>Hulk</h3>
-    //             </a>
 
   // Initialize Firebase
       var config = {
@@ -90,6 +91,7 @@ panelCreate(villainNames, villainIds, 'villain');
       var capCall;
       var mKey;
       var heroAnimated;
+      var mHeroInfo;
 
 
 
@@ -106,8 +108,11 @@ panelCreate(villainNames, villainIds, 'villain');
       //           }
       //       });
 
-        $('.char').click(function() {
+
+        $('.char').mouseleave(function() {
             $('#infoBox').empty();
+        });
+        $('.char').mouseenter(function() {
             console.log('working');
             var charName = $(this).children('h3').html();
             var charId = $(this).children('img').attr('id');
@@ -126,6 +131,7 @@ panelCreate(villainNames, villainIds, 'villain');
             //             method: 'GET'
             //         }).done(function(response) {
             //             console.log(response);
+                           // mHeroInfo = response.story 
             //     });
             // };
 
@@ -139,6 +145,20 @@ panelCreate(villainNames, villainIds, 'villain');
                     var results = response.data;
 
                 var animated = results[2].images.fixed_height.url;
+
+                if (charId === 'cptnA') {
+                    animated = results[1].images.fixed_height.url;
+                }
+                else if (charId === 'hulk' || charId === 'loki') {
+                    animated = results[2].images.fixed_height.url;
+                }
+                else if (charId === 'rskl' || charId === 'thor') {
+                    animated = results[3].images.fixed_height.url;
+                }
+                else if (charId === 'irnMn') {
+                    animated = results[6].images.fixed_height.url;
+                }
+
                 console.log(animated);
 
                 heroAnimated = $("<img>");
@@ -152,7 +172,7 @@ panelCreate(villainNames, villainIds, 'villain');
                     charBox.addClass("panel panel-default")
                     var charInfo = $("<h1>")
                     charInfo.html(charName);
-                    charInfo.append("<p>villain/Hero Info Here</p>");
+                    charInfo.append("<p>villain/Hero Info Here</p>"); // will be mHeroInfo
                     charBox.append(charInfo);
                     charBox.append(heroAnimated);
                     $('#infoBox').append(charBox);
