@@ -29,10 +29,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4" id='infoBox'>
             </div>
             <div class="col-sm-2">
-                <div class="panel panel-default">
+                <div class="panel panel-default" id='villainStuff'>
                     <div class="panel-heading" style="background-color: black">
                         <div class="btn" style="color: #f5f5f5">
                             <h1 class="text-center">Villain Stats</h1>
@@ -52,24 +52,24 @@
                 </div>
             </div>
             <div class="text-center panel-body">
-                <a class="thumbnail">
-                    <img class="char" id="hulk" src="assets/images/Hulk.jpg" alt="Hulk">
+                <a href="#" class="thumbnail char">
+                    <img id="hulk" src="assets/images/Hulk.jpg" alt="Hulk">
                     <h3>Hulk</h3>
                 </a>
-                <a href="#" class="thumbnail">
-                    <img class="char" id="irnMn" src="assets/images/ironman.jpg" alt="IronMan">
+                <a href="#" class="thumbnail char">
+                    <img id="irnMn" src="assets/images/ironman.jpg" alt="IronMan">
                     <h3>Iron Man</h3>
                 </a>
-                <a href="#" class="thumbnail">
-                    <img class="char" id="cptnA" src="assets/images/cptnAmerica.jpg" alt="CaptainAmerica">
+                <a href="#" class="thumbnail char">
+                    <img id="cptnA" src="assets/images/cptnAmerica.jpg" alt="CaptainAmerica">
                     <h3>Captain America</h3>
                 </a>
-                <a href="#" class="thumbnail">
-                    <img class="char" id="thor" src="assets/images/thor.jpg" alt="Thor">
+                <a href="#" class="thumbnail char">
+                    <img id="thor" src="assets/images/thor.jpg" alt="Thor">
                     <h3>Thor</h3>
                 </a>
-                <a href="#" class="thumbnail">
-                    <img class="char" id="sqrlG" src="assets/images/squirrel_girl.png" alt="SquirrelGirl">
+                <a href="#" class="thumbnail char">
+                    <img id="sqrlG" src="assets/images/squirrel_girl.png" alt="SquirrelGirl">
                     <h3>Squirrel Girl</h3>
                 </a>
             </div>
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="text-center panel-body">
-                <a class="thumbnail char">
+                <a href="#" class="thumbnail char">
                     <img id="loki" src="loki.jpg" alt="Loki">
                     <h3>Loki</h3>
                 </a>
@@ -99,12 +99,12 @@
                     <img id="mag" src="assets/images/magneto.jpg" alt="Magneto">
                     <h3>Magneto</h3>
                 </a>
-                <a href="#" class="thumbnail">
-                    <img class="char" id="rskl" src="assets/images/redskull.jpg" alt="RedSkull">
+                <a href="#" class="thumbnail char">
+                    <img id="rskl" src="assets/images/redskull.jpg" alt="RedSkull">
                     <h3>Red Skull</h3>
                 </a>
-                <a href="#" class="thumbnail">
-                    <img class="char" id="ult" src="assets/images/ultron.png" alt="Ultron">
+                <a href="#" class="thumbnail char">
+                    <img id="ult" src="assets/images/ultron.png" alt="Ultron">
                     <h3>Ultron</h3>
                 </a>
             </div>
@@ -130,6 +130,7 @@
       var villainArr = []
       var capCall;
       var mKey;
+      var heroAnimated;
 
       database.ref().on('value', function(snapshot) {
                 capCall = snapshot.val().reqURL;
@@ -144,26 +145,53 @@
             });
 
         $('.char').click(function() {
+            $('#villainStuff').empty();
             console.log('working');
             var charName = $(this).children('h3').html();
             var charId = $(this).children('img').attr('id');
             console.log(charName);
             console.log(charId);
 
-            getMarvelAPI();
+            // getMarvelAPI();
 
 
-            var queryURL = capCall + charName + mKey;
+            // var queryURL = capCall + charName + mKey;
 
 
-            function getMarvelAPI() {
-                    $.ajax({
-                        url: queryURL,
-                        method: 'GET'
-                    }).done(function(response) {
-                        console.log(response);
+            // function getMarvelAPI() {
+            //         $.ajax({
+            //             url: queryURL,
+            //             method: 'GET'
+            //         }).done(function(response) {
+            //             console.log(response);
+            //     });
+            // };
+
+            var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + charName + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
+                .done(function(response) {
+                    var results = response.data;
+
+                var animated = results[3].images.fixed_height.url;
+                console.log(animated);
+
+                heroAnimated = $("<img>");
+                    heroAnimated.attr("src", animated);
+                    heroAnimated.addClass("hero-image");
+                    console.log(heroAnimated);
+                var charBox = $("<div>", {id: charName, class: 'char'});
+                    var charInfo = $("<h1>")
+                    charInfo.html(charName);
+                    charInfo.append("<p>villain Info Here</p>");
+                    charBox.append(charInfo);
+                    charBox.append(heroAnimated);
+                    $('#villainStuff').append(charBox);
+
                 });
-            };
         });
 
     </script>
