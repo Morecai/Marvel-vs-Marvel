@@ -130,8 +130,8 @@ panelCreate(villainNames, villainIds, 'villain');
 
         $('.char').click(function() {
             console.log('working');
-            var charName = $(this).children('h3').html();
-            var charId = $(this).children('img').attr('id');
+            var charNameClick = $(this).children('h3').html();
+            var charIdClick = $(this).children('img').attr('id');
             console.log(charName);
             console.log(charId);
         });
