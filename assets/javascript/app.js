@@ -8,7 +8,7 @@ function panelCreate(arrName, arrId, hv) {
     for(i=0;i<arrName.length;i++) {
         var hero = $('<a>', {class: 'thumbnail char'});
         var heroImage = $('<img>', {id: arrId[i], src: ('assets/images/' + arrId[i] + ".jpg"), alt: arrName[i]});
-            heroImage.css("width", "50%");
+            heroImage.css("width", "100%");
             heroImage.css("height", "75px");
         hero.append(heroImage);
         hero.append('<h3>' + arrName[i] + '</h3>');
