@@ -1,7 +1,7 @@
 var heroNames = ['Hulk', 'Iron man', 'Captain America', 'Thor', 'Black Widow'];
-var heroIds = ['hulk', 'irnMn', 'cptnA', 'thor', 'blkwdw'];
+var heroIds = ['hulk', 'irnMn', 'cptnA', 'thor', 'blkWdw'];
 var villainNames = ['Loki', "Stan Lee", "Magneto", 'Red Skull', 'Ultron'];
-var villainIds = ['loki', 'sLee', 'mag', 'rskl', 'ult'];
+var villainIds = ['loki', 'sLee', 'mag', 'rSkl', 'ult'];
 
 function panelCreate(arrName, arrId, hv) {
     $('#'+ hv + 'List').empty();
@@ -58,10 +58,9 @@ panelCreate(villainNames, villainIds, 'villain');
       //       });
 
 
-        $('.char').mouseleave(function() {
-            $('#infoBox').empty();
-        });
+
         $('.char').mouseenter(function() {
+            $('#infoBox').empty();
             console.log('working');
             var charName = $(this).children('h3').html();
             var charId = $(this).children('img').attr('id');
@@ -101,7 +100,7 @@ panelCreate(villainNames, villainIds, 'villain');
                 else if (charId === 'hulk' || charId === 'loki') {
                     animated = results[2].images.fixed_height.url;
                 }
-                else if (charId === 'rskl' || charId === 'thor') {
+                else if (charId === 'rSkl' || charId === 'thor') {
                     animated = results[3].images.fixed_height.url;
                 }
                 else if (charId === 'irnMn') {
@@ -129,6 +128,7 @@ panelCreate(villainNames, villainIds, 'villain');
         });
 
         $('.char').click(function() {
+            $('#infoBox').html("working");
             console.log('working');
             var charNameClick = $(this).children('h3').html();
             var charIdClick = $(this).children('img').attr('id');
