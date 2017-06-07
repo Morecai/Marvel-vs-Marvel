@@ -2,11 +2,14 @@
     box-sizing: border-box;
 }
 
-body {
-    background: url("../images/marvel.jpg");
+body { 
+  background: url("../images/marvel.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 h1 {
     font-size: 35px;
 }
-
