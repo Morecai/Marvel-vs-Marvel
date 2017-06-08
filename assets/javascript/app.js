@@ -46,7 +46,8 @@ $(document).ready(function() {
 
     firebase.initializeApp(config);
 
-    var database = firebase.database();
+    var db = firebase.database();
+    var ref = db.ref();
 
     var capCall;
     var mKey;
@@ -54,19 +55,180 @@ $(document).ready(function() {
     var mHeroInfo;
 
 
+    //set variable to be used globally for the battle engine 
+    //initialize chosen char's stat variables
+    var yourAtk;
+    var yourStr;
+    var yourInt;
+    var yourSpd;
+    var yourNrg;
+    var yourO;
+    var yourChnc;
+    var yourD;
+    var yourHp;
+
+    //initialize opponents stat variables
+    var oppAtk;
+    var oppStr;
+    var oppInt;
+    var oppSpd;
+    var oppNrg;
+    var oppO;
+    var oppChnc;
+    var oppD;
+    var oppHp;
 
 
-    // database.ref().on('value', function(snapshot) {
-    //           capCall = snapshot.val().reqURL;
-    //           mKey = snapshot.val().mKey;
-    //           console.log(mKey);
-    //           var villainsList = snapshot.val().villainsList;
-    //           console.log(capCall);
-    //           for (var key in villainsList) {
-    //                   villainArr.push(key);
-    //                   console.log(villainArr);
-    //           }
-    //       });
+
+
+    ref.on("value", function(snapshot) {
+
+
+        var grab = snapshot.val();
+
+        //grab initial chosen char's stats from firebase
+        yourAtk = grab.villainsList.mag.atk;
+        yourStr = grab.villainsList.mag.str;
+        yourInt = grab.villainsList.mag.int;
+        yourSpd = grab.villainsList.mag.spd;
+        yourNrg = grab.villainsList.mag.nrg;
+
+        //set chosen char's offensive power
+        yourO = yourAtk+yourStr+yourInt;
+        yourO = yourO*yourSpd;
+        yourO = yourO*yourNrg;
+
+        //set your chosen char's chance to hit
+        yourChnc = .3;
+        var atkChnc = yourAtk*.1;
+        var intChnc = yourInt*.1;
+        var spdChnc = yourSpd*.1;
+        atkChnc +=1;
+        intChnc +=1;
+        spdChnc +=1;
+        yourChnc = yourChnc*atkChnc;
+        yourChnc = yourChnc*intChnc;
+        yourChnc = yourChnc*spdChnc;
+
+
+        //set chosen char's defensive power
+        yourD = yourStr+yourInt;
+        yourD = yourD*yourSpd;
+        yourD = yourD*yourNrg;
+
+        //set chosen char's health
+        yourHp = grab.villainsList.mag.dur*500;
+
+        /////////////////////////////////////////////////////////////
+
+        //grab opponenet's initial stats from firebase
+        oppAtk = grab.heroesList.hulk.atk;
+        oppStr = grab.heroesList.hulk.str;
+        oppInt = grab.heroesList.hulk.int;
+        oppSpd = grab.heroesList.hulk.spd;
+        oppNrg = grab.heroesList.hulk.nrg;
+
+        //set chosen opponent's offensicve power
+        oppO = oppAtk+oppStr+oppInt;
+        oppO = oppO*oppSpd;
+        oppO = oppO*oppNrg;
+
+        //set your opponent's chance to hit
+        oppChnc = .3
+        var oppAtkChnc = oppAtk*.1;
+        var oppIntChnc = oppInt*.1;
+        var oppSpdChnc = oppSpd*.1;
+        oppAtkChnc +=1;
+        oppIntChnc +=1;
+        oppSpdChnc +=1;
+        oppChnc = oppChnc*oppAtkChnc;
+        oppChnc = oppChnc*oppIntChnc;
+        oppChnc = oppChnc*oppSpdChnc;
+
+
+
+        //set opponent's defensive power
+        oppD = oppStr+oppInt;
+        oppD = oppD*oppSpd;
+        oppD = oppD*oppNrg;
+
+        //set opponent's health
+        oppHp = grab.heroesList.hulk.dur*500;
+
+        battle(yourO, yourHp, yourD, yourChnc, oppO, oppHp, oppD, oppChnc);
+
+    });
+
+
+    function battle(o1, h1, d1, chnc1, o2, h2, d2, chnc2) {
+
+    console.log(chnc1);
+    console.log(chnc2);
+
+
+        for(var i = 1; i <= 10000; i++) {
+
+            var yourDmg = h1-d2;
+            var oppDmg = h2-d1;
+
+            var fight = true;
+
+            while(fight == true) {
+
+                var dodge1 = Math.random();
+                var dodge2 = Math.random();
+
+                if (yourDmg > 0 && oppDmg > 0) {
+
+                    if(chnc2 > dodge2) {
+
+                        yourDmg -= o2;
+
+                    } else {
+
+                    console.log("a miss for Hulk!!!");
+
+                };
+
+
+                if(chnc1 > dodge1) {
+
+                    oppDmg -= o1;
+
+                } else {
+
+                    console.log("A miss for Magneto!!");
+
+                };
+
+                fight = true;
+
+                console.log(yourDmg);
+                console.log(oppDmg);
+
+                } else {
+
+                    fight = false;
+
+                if(yourDmg > 0) {
+
+                    console.log("Magneto won!");
+
+                } else {
+
+                    console.log("Hulk's health " + oppDmg);
+                    console.log("Magneto's health " + yourDmg);
+                    console.log("Hulk won!");
+
+                };
+
+            };
+
+        };
+
+    };
+
+};
 
 
 
