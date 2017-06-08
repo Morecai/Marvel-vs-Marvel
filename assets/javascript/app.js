@@ -5,6 +5,27 @@ var villainIds = ['loki', 'sLee', 'mag', 'rSkl', 'ult'];
 
 var second = false;
 
+
+
+var config = {
+    apiKey: "AIzaSyAH1lZdDNKxDUb6qxpzES4fdtDjHlEudDs",
+    authDomain: "marvel-vs-marvel.firebaseapp.com",
+    databaseURL: "https://marvel-vs-marvel.firebaseio.com",
+    projectId: "marvel-vs-marvel",
+    storageBucket: "marvel-vs-marvel.appspot.com",
+    messagingSenderId: "434172907026"
+  };
+
+ firebase.initializeApp(config);
+
+ var db = firebase.database();
+ var ref = db.ref();
+
+ref.on("value", function(snapshot) {
+  console.log(snapshot);
+});
+
+
 function panelCreate(arrName, arrId, hv) {
     $('#'+ hv + 'List').empty();
     for(i=0;i<arrName.length;i++) {
