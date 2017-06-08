@@ -64,10 +64,19 @@ panelCreate(villainNames, villainIds, 'villain');
         $('.char').mouseenter(function() {
             $('#infoBox').empty();
             console.log('working');
-            var charName = $(this).children('h3').html();
-            var charId = $(this).children('img').attr('id');
-            console.log(charName);
-            console.log(charId);
+            var charNameStats = $(this).children('h3').html();
+            var charIdStats = $(this).children('img').attr('id');
+
+
+            var charInfo = $("<h1>")
+                    charInfo.html(charNameStats);
+                    charInfo.append("<p>villain/Hero Info Here</p>"); // will be mHeroInfo
+            charboxStats = $("<div>", {id: charIdStats, class: 'text-center panel-body'});
+                    charboxStats.css("background-color", "black")
+                    charboxStats.css("color", "white")
+                    charboxStats.addClass("panel panel-default")
+                    charboxStats.append(charInfo);
+                    $('#infoBox').append(charboxStats);
 
             // getMarvelAPI();
 
@@ -84,6 +93,16 @@ panelCreate(villainNames, villainIds, 'villain');
                            // mHeroInfo = response.story 
             //     });
             // };
+        });
+
+var charboxStats;
+var fightBtn = $('<button class="button">fight</button>');
+var doneBtn = $('<button class="button" id="reset">done</button>');
+       
+        $('.char').click(function() {
+
+            var charName = $(this).children('h3').html();
+            var charId = $(this).children('img').attr('id');
 
             var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + charName + "&api_key=dc6zaTOxFJmzC&limit=20";
 
@@ -127,31 +146,45 @@ panelCreate(villainNames, villainIds, 'villain');
                     charBox.addClass("panel panel-default")
                     var charInfo = $("<h1>")
                     charInfo.html(charName);
-                    charInfo.append("<p>villain/Hero Info Here</p>"); // will be mHeroInfo
                     charBox.append(charInfo);
                     charBox.append(heroAnimated);
-                    $('#infoBox').append(charBox);
+
+                    if (second === true) {
+                      $('#infoBox').empty();
+                      $('#fight').append(fightBtn);
+                      $('#statBoxTwo').html(charBox);
+                      $('.villain').hide();
+                      $('.hero').hide();
+                  } else {
+                      $('#statBoxOne').append(charBox);
+                      second = true;
+                  }
                 });
         });
-var charboxStats;
-var fightBtn = $('<button class="button">fight</button>')
-        $('.char').click(function() {
-            var charNameClick = $(this).children('h3').html();
-            var charIdClick = $(this).children('img').attr('id');
-            var charInfo = $("<h1>")
-                    charInfo.html(charNameClick);
-                    charInfo.append("<p>villain/Hero Info Here</p>"); // will be mHeroInfo
-            charboxStats = $("<div>", {id: charNameClick, class: 'text-center panel-body'});
-                    charboxStats.css("background-color", "black")
-                    charboxStats.css("color", "white")
-                    charboxStats.addClass("panel panel-default")
-                    charboxStats.append(charInfo);
-            if (second === true) {
-                $('#infoBox').empty();
-                $('#fight').append(fightBtn);
-                $('#statBoxTwo').append(charboxStats);
-            } else {
-                $('#statBoxOne').append(charboxStats);
-                second = true;
-            }
+
+
+        $('#done').click(function() {
+          console.log("something");
+          $('.villain').show();
+          $('.hero').show();
+          $('#infoBox').empty();
+          $('#statBoxOne').empty();
+          $('#statBoxTwo').empty();
+          $('#fight').empty();
+          $('#chart').empty();
+          $('#done').empty();
         });
+
+
+        $('#fight').click(function() {
+          $('#infoBox').empty();
+          $('#statBoxOne').empty();
+          $('#statBoxTwo').empty();
+          $('#fight').empty();
+          $('#done').append(doneBtn);
+          console.log(doneBtn);
+          second = false;
+        });
+
+
+
