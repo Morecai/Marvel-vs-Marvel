@@ -76,75 +76,75 @@ panelCreate(villainNames, villainIds, 'villain');
 
 
 
-//     function battle(o1, h1, d1, chnc1, o2, h2, d2, chnc2) {
+    function battle(o1, h1, d1, chnc1, o2, h2, d2, chnc2) {
 
-//     console.log(chnc1);
-//     console.log(chnc2);
-
-
-//         for(var i = 1; i <= 100; i++) {
-
-//             var yourDmg = h1-d2;
-//             var oppDmg = h2-d1;
-
-//             var fight = true;
-
-//             while(fight == true) {
-
-//                 var dodge1 = Math.random();
-//                 var dodge2 = Math.random();
-
-//                 if (yourDmg > 0 && oppDmg > 0) {
-
-//                     if(chnc2 > dodge2) {
-
-//                         yourDmg -= o2;
-
-//                     } else {
-
-//                     console.log("a miss for Hulk!!!");
-
-//                 };
+    console.log(chnc1);
+    console.log(chnc2);
 
 
-//                 if(chnc1 > dodge1) {
+        for(var i = 1; i <= 100; i++) {
 
-//                     oppDmg -= o1;
+            var yourDmg = h1-d2;
+            var oppDmg = h2-d1;
 
-//                 } else {
+            var fight = true;
 
-//                     console.log("A miss for Magneto!!");
+            while(fight == true) {
 
-//                 };
+                var dodge1 = Math.random();
+                var dodge2 = Math.random();
 
-//                 fight = true;
+                if (yourDmg > 0 && oppDmg > 0) {
 
-//                 console.log(yourDmg);
-//                 console.log(oppDmg);
+                    if(chnc2 > dodge2) {
 
-//                 } else {
+                        yourDmg -= o2;
 
-//                     fight = false;
+                    } else {
 
-//                 if(yourDmg > 0) {
+                    console.log("a miss for Hulk!!!");
 
-//                     console.log("Magneto won!");
+                };
 
-//                 } else {
 
-//                     console.log("Hulk's health " + oppDmg);
-//                     console.log("Magneto's health " + yourDmg);
-//                     console.log("Hulk won!");
+                if(chnc1 > dodge1) {
 
-//                 };
+                    oppDmg -= o1;
 
-//             };
+                } else {
 
-//         };
+                    console.log("A miss for Magneto!!");
 
-//     };
+                };
 
-// };
+                fight = true;
+
+                console.log(yourDmg);
+                console.log(oppDmg);
+
+                } else {
+
+                    fight = false;
+
+                if(yourDmg > 0) {
+
+                    console.log("Magneto won!");
+
+                } else {
+
+                    console.log("Hulk's health " + oppDmg);
+                    console.log("Magneto's health " + yourDmg);
+                    console.log("Hulk won!");
+
+                };
+
+            };
+
+        };
+
+    };
+
+};
 
 
 
