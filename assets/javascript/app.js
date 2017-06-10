@@ -172,8 +172,9 @@ $('.char').mouseenter(function() {
     var charNameStats = $(this).children('h3').html();
     var charIdStats = $(this).children('img').attr('id');
 
-    var queryURL = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
+    var capCall = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
 
+<<<<<<< HEAD
     $.ajax({
 
         url: capCall,
@@ -186,6 +187,15 @@ $('.char').mouseenter(function() {
         heroAtt = response.attributionHTML;
         mHeroInfo = response.data.results[0].description;
 
+=======
+   $.ajax({
+        url: capCall,
+        method: 'GET'
+   }).done(function(response) {
+       console.log(response);
+        heroAtt = response.attributionHTML;
+        mHeroInfo = response.data.results.description;  
+>>>>>>> 77524d12e2fa04e3669a8f11dd3b561554f03514
     });
 
 
