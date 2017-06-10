@@ -1,4 +1,3 @@
-
 //initialize firebase
 var config = {
     apiKey: "AIzaSyAH1lZdDNKxDUb6qxpzES4fdtDjHlEudDs",
@@ -21,40 +20,46 @@ var villainIds = ['loki', 'sLee', 'mag', 'rSkl', 'ult'];
 //var that is used to indicate which hero is yours or opps 
 var second = false;
 
+//display vars
 var charboxStats;
 var fightBtn = $('<button class="button">Battle</button>');
 var doneBtn = $('<button class="button" id="reset">Choose New Characters</button>');
-var yourName;
-var oppName;
+var heroAnimated;
 
+//marvel api vars
 var capCall;
 var mKey;
-var heroAnimated;
 var mHeroInfo;
+var heroAtt;
 
 
 //set variable to be used globally for the battle engine 
 //initialize chosen char's stat variables
+var yourName;
 var yourAtk;
 var yourStr;
 var yourInt;
 var yourSpd;
 var yourNrg;
+var yourDur;
 var yourO;
 var yourChnc;
 var yourD;
 var yourHp;
 
 //initialize opponents stat variables
+var oppName;
 var oppAtk;
 var oppStr;
 var oppInt;
 var oppSpd;
+var yourDur;
 var oppNrg;
 var oppO;
 var oppChnc;
 var oppD;
 var oppHp;
+
 
 //win counts
 var count;
@@ -63,57 +68,76 @@ var oppWins;
 
 var horizontalBarChartData;
 
-//functions
+//FUNCTIONS
 function battle(o1, h1, d1, chnc1, o2, h2, d2, chnc2) {
 
-    yourWins = 0;
-    oppWins = 0;
-
-    for (var i = 1; i <= 100; i++) {
-
-        var yourDmg = h1 - d2;
-        var oppDmg = h2 - d1;
-
-        var fight = true;
-
-        while (fight == true) {
-
-            var dodge1 = Math.random();
-            var dodge2 = Math.random();
-
-            if (yourDmg > 0 && oppDmg > 0) {
-
-                if (chnc2 > dodge2) {
-
-                    yourDmg -= o2;
-
-                } else {};
-
-
-                if (chnc1 > dodge1) {
-                    oppDmg -= o1;
-                } else {};
-                fight = true;
+  yourWins = 0;
+  oppWins = 0;
+    //for loop to run fight simulator specified # of times
+    for(var i = 1; i <= 10000; i++) {
+      var yourDmg = h1-d2;
+      var oppDmg = h2-d1;
+      var fight = true;
+      //run while loop as long as both chars are above 0 hp
+      while(fight == true) {
+        var dodge1 = Math.random();
+        var dodge2 = Math.random();
+        //set if statement to determine if health remains for either char
+        if (yourDmg > 0 && oppDmg > 0) {
+          //set if statement to determine if there is a miss for your char
+          if(chnc2 > dodge2) {
+          //variable to set crit chance
+            var critChance = Math.random();
+            //if statement to determine if a crit was landed for your char
+            if(critChance > .75) {
+              var crit = Math.random();
+              crit +=1;
+              o2 = o2*crit;
+              yourDmg -=o2;
             } else {
-                fight = false;
-
-                if (yourDmg > 0) {
-
-                    yourWins++;
-
-                } else {
-                    oppWins++;
-
-                };
-
+              yourDmg -= o2;
             };
-
-        };
-
+            //end crit if
+          } else {
+            d1+=.01;
+          };
+          //end opp dodge chance if
+        //set if statement to determine if there is a miss for the opp char      
+          if(chnc1 > dodge1) {
+            //variable to set crit chance
+            var critChance = Math.random();
+            //if statement to determine if a crit was landed for the opp
+            if(critChance > .75) {
+              var crit = Math.random();
+              crit +=1;
+              o1 = o1*crit;
+              oppDmg -= o1;
+            } else {
+              oppDmg -= o1;
+            };
+            //end opp crit chance if
+          } else {
+            d2+=.01;
+          };
+          //end opp dodge
+          fight = true;
+        } else {
+          fight = false;
+          //if statement to assign wins
+          if(yourDmg > 0) {
+          yourWins +=1;  
+          } else {
+            oppWins +=1; 
+          };
+          //end wins if
+      };
+      //end health above 0 if statement 
     };
-
+    //end while loop
+  };
+  //end for loop
 };
-
+//end battle function
 
 function panelCreate(arrName, arrId, hv) {
     $('#' + hv + 'List').empty();
@@ -132,16 +156,36 @@ function panelCreate(arrName, arrId, hv) {
 panelCreate(heroNames, heroIds, 'hero');
 panelCreate(villainNames, villainIds, 'villain');
 
+////MOUSE EVENTS
+
+//when mouse enters char box char info displays in the middle section
+//grabs background info of the specific hero from the marvel api and displays it
 $('.char').mouseenter(function() {
+
     $('#infoBox').empty();
-    console.log('working');
     var charNameStats = $(this).children('h3').html();
     var charIdStats = $(this).children('img').attr('id');
+
+    var queryURL = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
+
+   $.ajax({
+
+        url: capCall,
+        method: 'GET'
+
+   }).done(function(response) {
+
+
+       console.log(response);
+        heroAtt = response.attributionHTML;
+        mHeroInfo = response.data.results[0].description;
+          
+    });
 
 
     var charInfo = $("<h1>")
     charInfo.html(charNameStats);
-    charInfo.append("<p>villain/Hero Info Here</p>"); // will be mHeroInfo
+    charInfo.append("<p class='par'>" + mHeroInfo + "</p>"); // will be mHeroInfo
     charboxStats = $("<div>", { id: charIdStats, class: 'text-center panel-body' });
     charboxStats.css("background-color", "black")
     charboxStats.css("color", "white")
@@ -149,25 +193,9 @@ $('.char').mouseenter(function() {
     charboxStats.append(charInfo);
     $('#infoBox').append(charboxStats);
 
-
-    // getMarvelAPI();
-
-
-    // var queryURL = capCall + charName + mKey;
-
-
-    // function getMarvelAPI() {
-    //         $.ajax({
-    //             url: queryURL,
-    //             method: 'GET'
-    //         }).done(function(response) {
-    //             console.log(response);
-    // mHeroInfo = response.story 
-    //     });
-    // };
 });
 
-
+//
 $('.char').click(function() {
 
     var charName = $(this).children('h3').html();
@@ -255,8 +283,6 @@ $('.char').click(function() {
                     oppChnc = oppChnc * oppIntChnc;
                     oppChnc = oppChnc * oppSpdChnc;
 
-
-
                     //set opponent's defensive power
                     oppD = oppStr + oppInt;
                     oppD = oppD * oppSpd;
@@ -265,7 +291,6 @@ $('.char').click(function() {
                     //set opponent's health
                     oppHp = grab[hv][charId].dur * 500;
                     oppName = charName;
-
                 });
             } else {
                 $('#statBoxOne').append(charBox);
@@ -299,7 +324,6 @@ $('.char').click(function() {
                     yourChnc = yourChnc * intChnc;
                     yourChnc = yourChnc * spdChnc;
 
-
                     //set chosen char's defensive power
                     yourD = yourStr + yourInt;
                     yourD = yourD * yourSpd;
@@ -308,11 +332,6 @@ $('.char').click(function() {
                     //set chosen char's health
                     yourHp = grab[hv][charId].dur * 500;
                     yourName = charName;
-
-                    ////////////////////////////////////////////////////////////
-
-                    // battle(yourO, yourHp, yourD, yourChnc, oppO, oppHp, oppD, oppChnc);
-
                 });
             }
         });
@@ -412,11 +431,10 @@ $('#fight').click(function() {
     battle(yourO, yourHp, yourD, yourChnc, oppO, oppHp, oppD, oppChnc);
     var battleInfoP;
     if (yourWins > oppWins) {
-      battleInfoP = $('<p> ' + yourName + " would win " + yourWins + " out of 100 battles! </p>")
+        battleInfoP = $('<p> ' + yourName + " would win " + yourWins + " out of 100 battles! </p>")
     } else {
-      battleInfoP = $('<p> ' + oppName + " would win " + oppWins + " out of 100 battles! </p>")
+        battleInfoP = $('<p> ' + oppName + " would win " + oppWins + " out of 100 battles! </p>")
     }
-
 
     $('#infoBox').empty();
 
