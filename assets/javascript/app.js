@@ -71,70 +71,55 @@ panelCreate(villainNames, villainIds, 'villain');
     var oppD;
     var oppHp;
 
-
-
+    var count;
+    var yourWins;
+    var oppWins;
 
 
 
     function battle(o1, h1, d1, chnc1, o2, h2, d2, chnc2) {
 
-    console.log(chnc1);
-    console.log(chnc2);
+            yourWins = 0;
+            oppWins = 0;
+
+            for(var i = 1; i <= 100; i++) {
+
+                var yourDmg = h1-d2;
+                var oppDmg = h2-d1;
+
+                var fight = true;
+
+                while(fight == true) {
+
+                    var dodge1 = Math.random();
+                    var dodge2 = Math.random();
+
+                    if (yourDmg > 0 && oppDmg > 0) {
+
+                        if(chnc2 > dodge2) {
+
+                            yourDmg -= o2;
+
+                        } else {
+                    };
 
 
-        for(var i = 1; i <= 100; i++) {
+                    if(chnc1 > dodge1) {
+                        oppDmg -= o1;
+                    } else {
+                    };
+                    fight = true;
+                    } else {
+                        fight = false;
 
-            var yourDmg = h1-d2;
-            var oppDmg = h2-d1;
+                    if(yourDmg > 0) {
 
-            var fight = true;
-
-            while(fight == true) {
-
-                var dodge1 = Math.random();
-                var dodge2 = Math.random();
-
-                if (yourDmg > 0 && oppDmg > 0) {
-
-                    if(chnc2 > dodge2) {
-
-                        yourDmg -= o2;
+                        yourWins++;
 
                     } else {
+                        oppWins++;
 
-                    console.log("a miss for Hulk!!!");
-
-                };
-
-
-                if(chnc1 > dodge1) {
-
-                    oppDmg -= o1;
-
-                } else {
-
-                    console.log("A miss for Magneto!!");
-
-                };
-
-                fight = true;
-
-                console.log(yourDmg);
-                console.log(oppDmg);
-
-                } else {
-
-                    fight = false;
-
-                if(yourDmg > 0) {
-
-                    console.log("Magneto won!");
-
-                } else {
-
-                    console.log("Hulk's health " + oppDmg);
-                    console.log("Magneto's health " + yourDmg);
-                    console.log("Hulk won!");
+                    };
 
                 };
 
@@ -143,8 +128,6 @@ panelCreate(villainNames, villainIds, 'villain');
         };
 
     };
-
-};
 
 
 
@@ -201,6 +184,8 @@ panelCreate(villainNames, villainIds, 'villain');
 var charboxStats;
 var fightBtn = $('<button class="button">fight</button>');
 var doneBtn = $('<button class="button" id="reset">done</button>');
+var yourName;
+var oppName;
        
         $('.char').click(function() {
 
@@ -302,6 +287,7 @@ var doneBtn = $('<button class="button" id="reset">done</button>');
                           //set opponent's health
                           oppHp = grab[hv][charId].dur*500;
                           console.log(oppHp);
+                          oppName = charName;
 
                         });
                   } else {
@@ -345,6 +331,7 @@ var doneBtn = $('<button class="button" id="reset">done</button>');
                             //set chosen char's health
                             yourHp = grab[hv][charId].dur*500;
                             console.log(yourHp);
+                            yourName = charName;
 
                             ////////////////////////////////////////////////////////////
                       
@@ -368,9 +355,99 @@ var doneBtn = $('<button class="button" id="reset">done</button>');
           $('#done').empty();
         });
 
+var color;
+'use strict';
 
+window.chartColors = {
+    red: 'rgb(255, 99, 132)',
+    blue: 'rgb(54, 162, 235)',
+    
+};
+
+color = Chart.helpers.color;
+
+
+var horizontalBarChartData;
         $('#fight').click(function() {
+
+             // this is my <canvas> element
+            $('#chart').remove('#canvas');
+            $('#chart').append('<canvas id="canvas"><canvas>');
+
+            horizontalBarChartData = {
+              labels: ["Durability/100", "Energy", "Fighting", "Intelligence", "Speed", "Strength"],
+              datasets: [{
+                  label: yourName,
+                  backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                  borderColor: window.chartColors.red,
+                  borderWidth: 1,
+                  data: [
+                      (yourD/100),
+                      yourNrg,
+                      yourAtk,
+                      yourInt,
+                      yourSpd,
+                      yourStr
+                  ]
+              }, {
+                  label: oppName,
+                  backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                  borderColor: window.chartColors.blue,
+                  data: [
+                      (oppD/100),
+                      oppNrg,
+                      oppAtk,
+                      oppInt,
+                      oppSpd,
+                      oppStr
+                  ]
+              }]
+          };
+
+            var ctx = document.getElementById("canvas").getContext("2d");
+              window.myHorizontalBar = new Chart(ctx, {
+                  type: 'horizontalBar',
+                  data: horizontalBarChartData,
+                  options: {
+                      // Elements options apply to all of the options unless overridden in a dataset
+                      // In this case, we are setting the border of each horizontal bar to be 2px wide
+                      elements: {
+                          rectangle: {
+                              borderWidth: 2,
+                          }
+                      },
+                      responsive: true,
+                      legend: {
+                          position: 'right',
+                      },
+                      title: {
+                          display: true,
+                          text: 'Fighter Data Comparison'
+                      }
+                  }
+              });
+
+          $("#canvas").addClass("panel-body");
+          $("#canvas").css("background-color", 'black');
+          $("#canvas").css("background-color", "black")
+          $("#canvas").css("color", "white")
+          $("#canvas").addClass("panel panel-default")
+
+          battle(yourO, yourHp, yourD, yourChnc, oppO, oppHp, oppD, oppChnc);
+
+          var battleInfoP = $('<p> ' + yourName + " would win " + yourWins + " out of 100 battles! </p>")
+
+          console.log(battleInfo);
           $('#infoBox').empty();
+          
+          var battleInfo = $("<div>", {class: 'text-center panel-body'});
+                    battleInfo.css("background-color", "black")
+                    battleInfoP.css("color", "white")
+                    battleInfo.addClass("panel panel-default")
+                    battleInfo.append(battleInfoP);
+          $('#infoBox').append(battleInfo);
+
+          $('#infoBox').append();
           $('#statBoxOne').empty();
           $('#statBoxTwo').empty();
           $('#fight').empty();
