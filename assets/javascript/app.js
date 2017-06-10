@@ -179,26 +179,26 @@ $('.char').mouseenter(function() {
     var charNameStats = $(this).children('h3').html();
     var charIdStats = $(this).children('img').attr('id');
 
-    var queryURL = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
+    // var capCall = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
 
-    $.ajax({
-        url: queryURL,
-        method: 'GET'
-    }).done(function(response) {
-        console.log(response);
-        heroAtt = response.attributionHTML;
-        mHeroInfo = response.data.results.description;
+    // $.ajax({
+    //     url: capCall,
+    //     method: 'GET'
+    // }).done(function(response) {
+    //     console.log(response);
+    //     heroAtt = response.attributionHTML;
+    //     mHeroInfo = response.data.results.description;
 
-    });
+    // });
 
-
+    
     var heroImage = $('<img>', {src: ('assets/images/' + charIdStats + ".jpg"), alt: charIdStats });
     heroImage.css("width", "100%");
     heroImage.css("height", "200px");
     console.log(charObject.charIdStats)
     var charInfo = $("<h1>")
     charInfo.html(charNameStats);
-    charInfo.append("<p class='par'>" + mHeroInfo + "</p>"); // will be mHeroInfo
+    charInfo.append("<p class='par'>" + charObject[charIdStats] + "</p>"); // will be mHeroInfo
     charInfo.append(heroImage);
     charboxStats = $("<div>", { id: charIdStats, class: 'text-center panel-body' });
     charboxStats.css("background-color", "black")
