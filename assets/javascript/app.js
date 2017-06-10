@@ -208,7 +208,7 @@ $('.char').click(function() {
         hv = 'heroesList';
     };
 
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + charName + "&api_key=dc6zaTOxFJmzC&limit=20";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + charName + "&api_key=dc6zaTOxFJmzC&limit=20";
 
     $.ajax({
             url: queryURL,
