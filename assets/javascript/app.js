@@ -168,303 +168,304 @@ panelCreate(villainNames, villainIds, 'villain');
 //grabs background info of the specific hero from the marvel api and displays it
 $('.char').mouseenter(function() {
 
-    $('#infoBox').empty();
-    var charNameStats = $(this).children('h3').html();
-    var charIdStats = $(this).children('img').attr('id');
+            $('#infoBox').empty();
+            var charNameStats = $(this).children('h3').html();
+            var charIdStats = $(this).children('img').attr('id');
 
-    var capCall = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
-
-<<<<<<< HEAD
-    $.ajax({
-
-        url: capCall,
-        method: 'GET'
-
-    }).done(function(response) {
+            var capCall = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
 
 
-        console.log(response);
-        heroAtt = response.attributionHTML;
-        mHeroInfo = response.data.results[0].description;
+            $.ajax({
 
-=======
-   $.ajax({
-        url: capCall,
-        method: 'GET'
-   }).done(function(response) {
-       console.log(response);
-        heroAtt = response.attributionHTML;
-        mHeroInfo = response.data.results.description;  
->>>>>>> 77524d12e2fa04e3669a8f11dd3b561554f03514
-    });
+                url: capCall,
+                method: 'GET'
+
+            }).done(function(response) {
 
 
-    var charInfo = $("<h1>")
-    charInfo.html(charNameStats);
-    charInfo.append("<p class='par'>" + mHeroInfo + "</p>"); // will be mHeroInfo
-    charboxStats = $("<div>", { id: charIdStats, class: 'text-center panel-body' });
-    charboxStats.css("background-color", "black")
-    charboxStats.css("color", "white")
-    charboxStats.addClass("panel panel-default")
-    charboxStats.append(charInfo);
-    $('#infoBox').append(charboxStats);
+                console.log(response);
+                heroAtt = response.attributionHTML;
+                mHeroInfo = response.data.results[0].description;
 
-});
 
-//
-$('.char').click(function() {
+                $.ajax({
+                    url: capCall,
+                    method: 'GET'
+                }).done(function(response) {
+                    console.log(response);
+                    heroAtt = response.attributionHTML;
+                    mHeroInfo = response.data.results.description;
 
-    var charName = $(this).children('h3').html();
-    var charId = $(this).children('img').attr('id');
-    var hv = $(this).attr('value');
-    console.log(hv);
-    if (hv === 'villain') {
-        hv = 'villainsList';
-    } else {
-        hv = 'heroesList';
-    };
+                });
 
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + charName + "&api_key=dc6zaTOxFJmzC&limit=20";
 
-    $.ajax({
-            url: queryURL,
-            method: "GET"
-        })
-        .done(function(response) {
-            var results = response.data;
+                var charInfo = $("<h1>")
+                charInfo.html(charNameStats);
+                charInfo.append("<p class='par'>" + mHeroInfo + "</p>"); // will be mHeroInfo
+                charboxStats = $("<div>", { id: charIdStats, class: 'text-center panel-body' });
+                charboxStats.css("background-color", "black")
+                charboxStats.css("color", "white")
+                charboxStats.addClass("panel panel-default")
+                charboxStats.append(charInfo);
+                $('#infoBox').append(charboxStats);
 
-            var animated = results[2].images.fixed_height.url;
+            });
 
-            if (charId === 'cptnA') {
-                animated = results[0].images.fixed_height.url;
-            } else if (charId === 'hulk' || charId === 'loki') {
-                animated = results[2].images.fixed_height.url;
-            } else if (charId === 'thor') {
-                animated = results[3].images.fixed_height.url;
-            } else if (charId === 'rSkl') {
-                animated = results[12].images.fixed_height.url;
-            } else if (charId === 'irnMn') {
-                animated = results[6].images.fixed_height.url;
-            }
+            //
+            $('.char').click(function() {
 
-            console.log(animated);
+                var charName = $(this).children('h3').html();
+                var charId = $(this).children('img').attr('id');
+                var hv = $(this).attr('value');
+                console.log(hv);
+                if (hv === 'villain') {
+                    hv = 'villainsList';
+                } else {
+                    hv = 'heroesList';
+                };
 
-            heroAnimated = $("<img>");
-            heroAnimated.attr("src", animated);
-            heroAnimated.css("width", "100%");
-            heroAnimated.css("height", "200px");
-            heroAnimated.addClass("hero-image");
-            console.log(heroAnimated);
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + charName + "&api_key=dc6zaTOxFJmzC&limit=20";
 
-            var charBox = $("<div>", { id: charName, class: 'text-center panel-body' });
-            charBox.css("background-color", "black")
-            charBox.css("color", "white")
-            charBox.addClass("panel panel-default")
-            var charInfo = $("<h1>")
-            charInfo.html(charName);
-            charBox.append(charInfo);
-            charBox.append(heroAnimated);
+                $.ajax({
+                        url: queryURL,
+                        method: "GET"
+                    })
+                    .done(function(response) {
+                        var results = response.data;
 
-            if (second === true) {
+                        var animated = results[2].images.fixed_height.url;
+
+                        if (charId === 'cptnA') {
+                            animated = results[0].images.fixed_height.url;
+                        } else if (charId === 'hulk' || charId === 'loki') {
+                            animated = results[2].images.fixed_height.url;
+                        } else if (charId === 'thor') {
+                            animated = results[3].images.fixed_height.url;
+                        } else if (charId === 'rSkl') {
+                            animated = results[12].images.fixed_height.url;
+                        } else if (charId === 'irnMn') {
+                            animated = results[6].images.fixed_height.url;
+                        }
+
+                        console.log(animated);
+
+                        heroAnimated = $("<img>");
+                        heroAnimated.attr("src", animated);
+                        heroAnimated.css("width", "100%");
+                        heroAnimated.css("height", "200px");
+                        heroAnimated.addClass("hero-image");
+                        console.log(heroAnimated);
+
+                        var charBox = $("<div>", { id: charName, class: 'text-center panel-body' });
+                        charBox.css("background-color", "black")
+                        charBox.css("color", "white")
+                        charBox.addClass("panel panel-default")
+                        var charInfo = $("<h1>")
+                        charInfo.html(charName);
+                        charBox.append(charInfo);
+                        charBox.append(heroAnimated);
+
+                        if (second === true) {
+                            $('#infoBox').empty();
+                            $('#fight').append(fightBtn);
+                            $('#statBoxTwo').html(charBox);
+                            $('.villain').hide();
+                            $('.hero').hide();
+
+                            ref.on("value", function(snapshot) {
+                                var grab = snapshot.val();
+                                //grab opponenet's initial stats from firebase
+                                oppAtk = grab[hv][charId].atk;
+                                oppStr = grab[hv][charId].str;
+                                oppInt = grab[hv][charId].int;
+                                oppSpd = grab[hv][charId].spd;
+                                oppNrg = grab[hv][charId].nrg;
+                                oppDur = grab[hv][charId].dur;
+
+                                //set chosen opponent's offensicve power
+                                oppO = oppAtk + oppStr + oppInt;
+                                oppO = oppO * oppSpd;
+                                oppO = oppO * oppNrg;
+
+                                //set your opponent's chance to hit
+                                oppChnc = .3
+                                var oppAtkChnc = oppAtk * .1;
+                                var oppIntChnc = oppInt * .1;
+                                var oppSpdChnc = oppSpd * .1;
+                                oppAtkChnc += 1;
+                                oppIntChnc += 1;
+                                oppSpdChnc += 1;
+                                oppChnc = oppChnc * oppAtkChnc;
+                                oppChnc = oppChnc * oppIntChnc;
+                                oppChnc = oppChnc * oppSpdChnc;
+
+                                //set opponent's defensive power
+                                oppD = oppStr + oppInt;
+                                oppD = oppD * oppSpd;
+                                oppD = oppD * oppNrg;
+
+                                //set opponent's health
+                                oppHp = grab[hv][charId].dur * 500;
+                                oppName = charName;
+                            });
+                        } else {
+                            $('#statBoxOne').append(charBox);
+                            second = true;
+                            ref.on("value", function(snapshot) {
+
+                                var grab = snapshot.val();
+
+                                //grab initial chosen char's stats from firebase
+                                yourAtk = grab[hv][charId].atk;
+                                yourStr = grab[hv][charId].str;
+                                yourInt = grab[hv][charId].int;
+                                yourSpd = grab[hv][charId].spd;
+                                yourNrg = grab[hv][charId].nrg;
+                                yourDur = grab[hv][charId].dur;
+
+                                //set chosen char's offensive power
+                                yourO = yourAtk + yourStr + yourInt;
+                                yourO = yourO * yourSpd;
+                                yourO = yourO * yourNrg;
+
+                                //set your chosen char's chance to hit
+                                yourChnc = .3;
+                                var atkChnc = yourAtk * .1;
+                                var intChnc = yourInt * .1;
+                                var spdChnc = yourSpd * .1;
+                                atkChnc += 1;
+                                intChnc += 1;
+                                spdChnc += 1;
+                                yourChnc = yourChnc * atkChnc;
+                                yourChnc = yourChnc * intChnc;
+                                yourChnc = yourChnc * spdChnc;
+
+                                //set chosen char's defensive power
+                                yourD = yourStr + yourInt;
+                                yourD = yourD * yourSpd;
+                                yourD = yourD * yourNrg;
+
+                                //set chosen char's health
+                                yourHp = grab[hv][charId].dur * 500;
+                                yourName = charName;
+                            });
+                        }
+                    });
+            });
+
+
+            $('#done').click(function() {
+                console.log("something");
+                $('.villain').show();
+                $('.hero').show();
                 $('#infoBox').empty();
-                $('#fight').append(fightBtn);
-                $('#statBoxTwo').html(charBox);
-                $('.villain').hide();
-                $('.hero').hide();
+                $('#statBoxOne').empty();
+                $('#statBoxTwo').empty();
+                $('#fight').empty();
+                $('#chart').empty();
+                $('#done').empty();
+            });
 
-                ref.on("value", function(snapshot) {
-                    var grab = snapshot.val();
-                    //grab opponenet's initial stats from firebase
-                    oppAtk = grab[hv][charId].atk;
-                    oppStr = grab[hv][charId].str;
-                    oppInt = grab[hv][charId].int;
-                    oppSpd = grab[hv][charId].spd;
-                    oppNrg = grab[hv][charId].nrg;
-                    oppDur = grab[hv][charId].dur;
+            var color;
+            'use strict';
 
-                    //set chosen opponent's offensicve power
-                    oppO = oppAtk + oppStr + oppInt;
-                    oppO = oppO * oppSpd;
-                    oppO = oppO * oppNrg;
+            window.chartColors = {
+                red: 'rgb(255, 99, 132)',
+                blue: 'rgb(54, 162, 235)',
 
-                    //set your opponent's chance to hit
-                    oppChnc = .3
-                    var oppAtkChnc = oppAtk * .1;
-                    var oppIntChnc = oppInt * .1;
-                    var oppSpdChnc = oppSpd * .1;
-                    oppAtkChnc += 1;
-                    oppIntChnc += 1;
-                    oppSpdChnc += 1;
-                    oppChnc = oppChnc * oppAtkChnc;
-                    oppChnc = oppChnc * oppIntChnc;
-                    oppChnc = oppChnc * oppSpdChnc;
+            };
 
-                    //set opponent's defensive power
-                    oppD = oppStr + oppInt;
-                    oppD = oppD * oppSpd;
-                    oppD = oppD * oppNrg;
+            color = Chart.helpers.color;
 
-                    //set opponent's health
-                    oppHp = grab[hv][charId].dur * 500;
-                    oppName = charName;
+            $('#fight').click(function() {
+
+                // remove <canvas> element to enable new chart creation
+                $('#chart').remove('#canvas');
+                $('#chart').append('<canvas id="canvas"><canvas>');
+
+                // creates new chart every fight
+                horizontalBarChartData = {
+                    labels: ["Durability", "Energy", "Fighting", "Intelligence", "Speed", "Strength"],
+                    datasets: [{
+                        label: yourName,
+                        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                        borderColor: window.chartColors.red,
+                        borderWidth: 1,
+                        data: [
+                            yourDur,
+                            yourNrg,
+                            yourAtk,
+                            yourInt,
+                            yourSpd,
+                            yourStr
+                        ]
+                    }, {
+                        label: oppName,
+                        backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                        borderColor: window.chartColors.blue,
+                        data: [
+                            oppDur,
+                            oppNrg,
+                            oppAtk,
+                            oppInt,
+                            oppSpd,
+                            oppStr
+                        ]
+                    }]
+                };
+
+                var ctx = document.getElementById("canvas").getContext("2d");
+                window.myHorizontalBar = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: horizontalBarChartData,
+                    options: {
+                        // Elements options apply to all of the options unless overridden in a dataset
+                        // In this case, we are setting the border of each horizontal bar to be 2px wide
+                        elements: {
+                            rectangle: {
+                                borderWidth: 2,
+                            }
+                        },
+                        responsive: true,
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Fighter Data Comparison'
+                        }
+                    }
                 });
-            } else {
-                $('#statBoxOne').append(charBox);
-                second = true;
-                ref.on("value", function(snapshot) {
 
-                    var grab = snapshot.val();
+                //display 
+                $("#canvas").addClass("panel-body");
+                $("#canvas").css("background-color", 'black');
+                $("#canvas").css("background-color", "black")
+                $("#canvas").css("color", "white")
+                $("#canvas").addClass("panel panel-default")
 
-                    //grab initial chosen char's stats from firebase
-                    yourAtk = grab[hv][charId].atk;
-                    yourStr = grab[hv][charId].str;
-                    yourInt = grab[hv][charId].int;
-                    yourSpd = grab[hv][charId].spd;
-                    yourNrg = grab[hv][charId].nrg;
-                    yourDur = grab[hv][charId].dur;
-
-                    //set chosen char's offensive power
-                    yourO = yourAtk + yourStr + yourInt;
-                    yourO = yourO * yourSpd;
-                    yourO = yourO * yourNrg;
-
-                    //set your chosen char's chance to hit
-                    yourChnc = .3;
-                    var atkChnc = yourAtk * .1;
-                    var intChnc = yourInt * .1;
-                    var spdChnc = yourSpd * .1;
-                    atkChnc += 1;
-                    intChnc += 1;
-                    spdChnc += 1;
-                    yourChnc = yourChnc * atkChnc;
-                    yourChnc = yourChnc * intChnc;
-                    yourChnc = yourChnc * spdChnc;
-
-                    //set chosen char's defensive power
-                    yourD = yourStr + yourInt;
-                    yourD = yourD * yourSpd;
-                    yourD = yourD * yourNrg;
-
-                    //set chosen char's health
-                    yourHp = grab[hv][charId].dur * 500;
-                    yourName = charName;
-                });
-            }
-        });
-});
-
-
-$('#done').click(function() {
-    console.log("something");
-    $('.villain').show();
-    $('.hero').show();
-    $('#infoBox').empty();
-    $('#statBoxOne').empty();
-    $('#statBoxTwo').empty();
-    $('#fight').empty();
-    $('#chart').empty();
-    $('#done').empty();
-});
-
-var color;
-'use strict';
-
-window.chartColors = {
-    red: 'rgb(255, 99, 132)',
-    blue: 'rgb(54, 162, 235)',
-
-};
-
-color = Chart.helpers.color;
-
-$('#fight').click(function() {
-
-    // remove <canvas> element to enable new chart creation
-    $('#chart').remove('#canvas');
-    $('#chart').append('<canvas id="canvas"><canvas>');
-
-    // creates new chart every fight
-    horizontalBarChartData = {
-        labels: ["Durability", "Energy", "Fighting", "Intelligence", "Speed", "Strength"],
-        datasets: [{
-            label: yourName,
-            backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-            borderColor: window.chartColors.red,
-            borderWidth: 1,
-            data: [
-                yourDur,
-                yourNrg,
-                yourAtk,
-                yourInt,
-                yourSpd,
-                yourStr
-            ]
-        }, {
-            label: oppName,
-            backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-            borderColor: window.chartColors.blue,
-            data: [
-                oppDur,
-                oppNrg,
-                oppAtk,
-                oppInt,
-                oppSpd,
-                oppStr
-            ]
-        }]
-    };
-
-    var ctx = document.getElementById("canvas").getContext("2d");
-    window.myHorizontalBar = new Chart(ctx, {
-        type: 'horizontalBar',
-        data: horizontalBarChartData,
-        options: {
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-                rectangle: {
-                    borderWidth: 2,
+                battle(yourO, yourHp, yourD, yourChnc, oppO, oppHp, oppD, oppChnc);
+                var battleInfoP;
+                if (yourWins > oppWins) {
+                    battleInfoP = $('<p> ' + yourName + " would win " + yourWins + " out of 100 battles! </p>")
+                } else {
+                    battleInfoP = $('<p> ' + oppName + " would win " + oppWins + " out of 100 battles! </p>")
                 }
-            },
-            responsive: true,
-            legend: {
-                position: 'right',
-            },
-            title: {
-                display: true,
-                text: 'Fighter Data Comparison'
-            }
-        }
-    });
 
-    //display 
-    $("#canvas").addClass("panel-body");
-    $("#canvas").css("background-color", 'black');
-    $("#canvas").css("background-color", "black")
-    $("#canvas").css("color", "white")
-    $("#canvas").addClass("panel panel-default")
+                $('#infoBox').empty();
 
-    battle(yourO, yourHp, yourD, yourChnc, oppO, oppHp, oppD, oppChnc);
-    var battleInfoP;
-    if (yourWins > oppWins) {
-        battleInfoP = $('<p> ' + yourName + " would win " + yourWins + " out of 100 battles! </p>")
-    } else {
-        battleInfoP = $('<p> ' + oppName + " would win " + oppWins + " out of 100 battles! </p>")
-    }
+                var battleInfo = $("<div>", { class: 'text-center panel-body' });
+                battleInfo.css("background-color", "black")
+                battleInfoP.css("color", "white")
+                battleInfo.addClass("panel panel-default")
+                battleInfo.append(battleInfoP);
+                $('#infoBox').append(battleInfo);
 
-    $('#infoBox').empty();
-
-    var battleInfo = $("<div>", { class: 'text-center panel-body' });
-    battleInfo.css("background-color", "black")
-    battleInfoP.css("color", "white")
-    battleInfo.addClass("panel panel-default")
-    battleInfo.append(battleInfoP);
-    $('#infoBox').append(battleInfo);
-
-    $('#infoBox').append();
-    $('#statBoxOne').empty();
-    $('#statBoxTwo').empty();
-    $('#fight').empty();
-    $('#done').append(doneBtn);
-    second = false;
+                $('#infoBox').append();
+                $('#statBoxOne').empty();
+                $('#statBoxTwo').empty();
+                $('#fight').empty();
+                $('#done').append(doneBtn);
+                second = false;
+            });
 });
