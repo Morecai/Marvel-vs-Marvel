@@ -174,7 +174,7 @@ $('.char').mouseenter(function() {
    }).done(function(response) {
        console.log(response);
         heroAtt = response.attributionHTML;
-        mHeroInfo = response.data.results[0].description;  
+        mHeroInfo = response.data.results.description;  
     });
 
 
