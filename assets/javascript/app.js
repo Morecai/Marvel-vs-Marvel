@@ -68,74 +68,80 @@ var oppWins;
 
 var horizontalBarChartData;
 
+var audioE = document.createElement("audio");
+audioE.setAttribute("src", "Assets/mp3/black.mp3");
+$(".btn").on("click", function() {
+    audioE.play();
+});
+
 //FUNCTIONS
 function battle(o1, h1, d1, chnc1, o2, h2, d2, chnc2) {
 
-  yourWins = 0;
-  oppWins = 0;
+    yourWins = 0;
+    oppWins = 0;
     //for loop to run fight simulator specified # of times
-    for(var i = 1; i <= 100; i++) {
-      var yourDmg = h1-d2;
-      var oppDmg = h2-d1;
-      var fight = true;
-      //run while loop as long as both chars are above 0 hp
-      while(fight == true) {
-        var dodge1 = Math.random();
-        var dodge2 = Math.random();
-        //set if statement to determine if health remains for either char
-        if (yourDmg > 0 && oppDmg > 0) {
-          //set if statement to determine if there is a miss for your char
-          if(chnc2 > dodge2) {
-          //variable to set crit chance
-            var critChance = Math.random();
-            //if statement to determine if a crit was landed for your char
-            if(critChance > .75) {
-              var crit = Math.random();
-              crit +=1;
-              o2 = o2*crit;
-              yourDmg -=o2;
+    for (var i = 1; i <= 100; i++) {
+        var yourDmg = h1 - d2;
+        var oppDmg = h2 - d1;
+        var fight = true;
+        //run while loop as long as both chars are above 0 hp
+        while (fight == true) {
+            var dodge1 = Math.random();
+            var dodge2 = Math.random();
+            //set if statement to determine if health remains for either char
+            if (yourDmg > 0 && oppDmg > 0) {
+                //set if statement to determine if there is a miss for your char
+                if (chnc2 > dodge2) {
+                    //variable to set crit chance
+                    var critChance = Math.random();
+                    //if statement to determine if a crit was landed for your char
+                    if (critChance > .75) {
+                        var crit = Math.random();
+                        crit += 1;
+                        o2 = o2 * crit;
+                        yourDmg -= o2;
+                    } else {
+                        yourDmg -= o2;
+                    };
+                    //end crit if
+                } else {
+                    d1 += .01;
+                };
+                //end opp dodge chance if
+                //set if statement to determine if there is a miss for the opp char      
+                if (chnc1 > dodge1) {
+                    //variable to set crit chance
+                    var critChance = Math.random();
+                    //if statement to determine if a crit was landed for the opp
+                    if (critChance > .75) {
+                        var crit = Math.random();
+                        crit += 1;
+                        o1 = o1 * crit;
+                        oppDmg -= o1;
+                    } else {
+                        oppDmg -= o1;
+                    };
+                    //end opp crit chance if
+                } else {
+                    d2 += .01;
+                };
+                //end opp dodge
+                fight = true;
             } else {
-              yourDmg -= o2;
+                fight = false;
+                //if statement to assign wins
+                if (yourDmg > 0) {
+                    yourWins += 1;
+                } else {
+                    oppWins += 1;
+                };
+                //end wins if
             };
-            //end crit if
-          } else {
-            d1+=.01;
-          };
-          //end opp dodge chance if
-        //set if statement to determine if there is a miss for the opp char      
-          if(chnc1 > dodge1) {
-            //variable to set crit chance
-            var critChance = Math.random();
-            //if statement to determine if a crit was landed for the opp
-            if(critChance > .75) {
-              var crit = Math.random();
-              crit +=1;
-              o1 = o1*crit;
-              oppDmg -= o1;
-            } else {
-              oppDmg -= o1;
-            };
-            //end opp crit chance if
-          } else {
-            d2+=.01;
-          };
-          //end opp dodge
-          fight = true;
-        } else {
-          fight = false;
-          //if statement to assign wins
-          if(yourDmg > 0) {
-          yourWins +=1;  
-          } else {
-            oppWins +=1; 
-          };
-          //end wins if
-      };
-      //end health above 0 if statement 
+            //end health above 0 if statement 
+        };
+        //end while loop
     };
-    //end while loop
-  };
-  //end for loop
+    //end for loop
 };
 //end battle function
 
@@ -168,18 +174,18 @@ $('.char').mouseenter(function() {
 
     var queryURL = "https://gateway.marvel.com:443/v1/public/characters?name=" + charNameStats + "&apikey=a81b78c534562c5384986ee7dad0b0f7a124e249";
 
-   $.ajax({
+    $.ajax({
 
         url: capCall,
         method: 'GET'
 
-   }).done(function(response) {
+    }).done(function(response) {
 
 
-       console.log(response);
+        console.log(response);
         heroAtt = response.attributionHTML;
         mHeroInfo = response.data.results[0].description;
-          
+
     });
 
 
