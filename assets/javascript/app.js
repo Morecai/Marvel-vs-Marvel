@@ -74,7 +74,7 @@ function battle(o1, h1, d1, chnc1, o2, h2, d2, chnc2) {
   yourWins = 0;
   oppWins = 0;
     //for loop to run fight simulator specified # of times
-    for(var i = 1; i <= 10000; i++) {
+    for(var i = 1; i <= 100; i++) {
       var yourDmg = h1-d2;
       var oppDmg = h2-d1;
       var fight = true;
