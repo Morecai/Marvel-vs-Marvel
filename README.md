@@ -14,7 +14,11 @@ This repository is a web application that compares marvel heroes and villians. T
 
 + When the user clicks a character, a gif of the hero or villain appears in the main section. When the next character is selected a battle button appears.
 
+![img](https://github.com/Morecai/Marvel-vs-Marvel/blob/master/assets/images/SS3.png)
+
 + When the battle button is clicked, an algorithm that uses the official hero stats from marvel.com is run 100 times. A panel appears that shows the results of these 'battles' with a comparison graph of the characters below.
+
+![img](https://github.com/Morecai/Marvel-vs-Marvel/blob/master/assets/images/SS4.png)
 
 ### Contributors
 ---
