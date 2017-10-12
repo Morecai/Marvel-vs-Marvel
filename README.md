@@ -23,5 +23,7 @@ This repository is a web application that compares marvel heroes and villians. T
 ### Contributors
 ---
 [Casey Rubel](https://github.com/caseyrubel)
-[Sam Cannon]()
+
+Sam Cannon
+
 [Frank Mcdonald](https://github.com/Morecai)
